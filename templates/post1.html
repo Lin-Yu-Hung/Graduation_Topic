@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>表單傳送測試</title>
+</head>
+
+<body>
+    <form action="." method="post" name="form1">{% csrf_token %}
+        <table border="1" cellspacing="1" cellpadding="4">
+            <tr>
+                <th>姓名</th><td><input type="text"id = "name" name="name"> </td>
+            </tr>
+            <tr>
+                <th>姓名</th>
+                <td><input type="text" id="name" name="name"> </td>
+            </tr>
+            <tr>
+                <th>姓名</th>
+                <td><input type="text" id="name" name="name"> </td>
+            </tr>
+            <tr>
+                <th>姓名</th>
+                <td><input type="text" id="name" name="name"> </td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>

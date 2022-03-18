@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- 載入靜態檔案 -->
+{% load static %}
+<html>
+    <head>
+		<link rel="stylesheet" href="{% static 'ssd.css' %}">
+        <meta charset="utf-8">
+        <title>電腦報價幫手</title>
+    </head>
+
+    <body>
+        <div class="center"> 
+            <div class = "h1">
+				<a href="index.html" target="_self"  style="text-decoration:none" title="電腦報價幫手">電腦報價幫手</a>
+			</div>
+            <form name="input" action="XXX" method="get">
+                <div class="search">
+                    <input type="text" name="name" size="100%">
+                    <input type="submit" value="搜尋">
+                </div>
+            </form>
+			<div class="but">
+				<div class="login">
+					<input type="button" value="Log In">
+				</div>
+			<div class="signup">
+				<input type="button" value="Sign Up">
+				</div>
+			</div>
+		</div>
+        <hr/>
+        
+          <div class="list">
+            <ul>
+                <li><a href="/cpu">CPU</a></li>
+                <li><a href="MB.html">主機板</a></li>
+                <li><a href="/ssd">SSD</a></li>
+                <li><a href="/hdd">HDD</a></li>
+                <li><a href="V ml">顯示卡</a></li>
+                <li><a href="Memory.html">記憶體</a></li>
+                <li><a href="Power.html">電源供應器</a></li>
+                <li><a href="chassis.html">機殼</a></li>
+            </ul>
+          </div>
+        <hr/>
+		<div class="cm">
+            <div id="filterbar" class="bar-spinbtn">
+              價格範圍:
+                <input id="minprice" type="text" value="">
+                ~
+                <input id="minprice1" type="text" value="">
+                <input id="btn-prc" type="button" value="搜尋">
+            </div>
+        </div>
+		<div class="cmr">
+			選擇品牌:
+			<select name="catordog">
+			  <option>品牌</option>
+			  <optgroup label="品牌">
+                <option>Samsung 三星</option>
+			    <option>Western Digital</option>	
+			    <option>Intel 英特爾</option>
+				<option>Kingston 金士頓</option>
+				<option>Micron 美光</option>
+				<option>SanDisk 晟碟</option>
+				<option>ADATA 威剛</option>
+				<option>CORSAIR 海盜船</option>
+				<option>PNY 必恩威</option>
+				<option>MSI 微星</option>
+				<option>LEVEN 獵穩</option>
+				<option>Transcend 創見</option>
+				<option>Seagate 希捷</option>
+				<option>TEAM 十銓</option>
+				<option>Patriot 博帝</option>  
+				<option>KLEVV 科賦</option>
+				<option>SP 廣穎</option>
+				<option>TOPMORE 達墨</option>  
+				<option>Acer</option>  
+				<option>ANACOMDA 巨蟒</option>
+				<option>Apacer 宇瞻</option>
+				<option>Apacer NAS SSD</option>
+			    <option>GIGABYTE 技嘉</option>
+				<option>其他品牌</option>
+              </optgroup>
+			</select>
+		</div>
+		<div class="cmrr">
+			容量:
+			<select name="dogorcat">
+			  <option>容量</option>
+			  <optgroup label="2.5吋 SSD">
+			    <option>SATAⅢ》2TB↗</option> 
+				<option>SATAⅢ》960 ~ 1TB</option>
+				<option>SATAⅢ》480 ~ 512G</option> 
+				<option>SATAⅢ》240 ~ 256G</option>
+				<option>SATAⅢ》120 ~ 128G</option>
+			  </optgroup>
+			  <optgroup label="PCIe Gen3">
+				<option>G3→2TB↗</option>
+				<option>G3→960G - 1TB</option>
+				<option>G3→480 - 512GB</option>
+				<option>G3→240 - 256GB</option>
+				<option>G3→120 - 128GB</option>  
+			  </optgroup>
+			  <optgroup label="PCIe Gen4">
+				<option>G4→2TB↗</option>
+				<option>G4→960G - 1TB</option>
+				<option>G4→480 - 512GB</option>
+				<option>G4→240 - 256GB</option> 
+			  </optgroup>
+			</select>
+		</div>
+        <br/>
+            <table width="100%" height="508" border="1">
+			<th>廠商</th>
+			
+			<th>商品圖片</th>
+			<th>商品名稱</th>
+			<th>價格</th>
+			<th>詳細資訊</th>
+			<th>購買連結</th>
+			{% for aaa in ssd_all %}
+			<tr align="center">
+				<td>{{aaa.vendor}}</td>
+				<td><img src="{{aaa.pc_images}}" width="200" height="200"></td>
+				<td>{{aaa.name}}</td>
+				<td>{{aaa.price}}</td>
+				<td>{{aaa.commodity}}</td>
+				<td><input type="button" value="購買連結" onclick="window.open('{{aaa.url_list}}')"></td>
+
+			</tr>
+
+			{% endfor %}
+			</table>
+
+    </body>
+</html>
