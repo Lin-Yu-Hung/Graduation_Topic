@@ -85,7 +85,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  
-        'NAME': '0306',  # 資料庫名稱
+        'NAME': '0319',  # 資料庫名稱
         'USER': 'root',  # 資料庫帳號
         'PASSWORD':'0000',  # 資料庫密碼
         'HOST': 'localhost',  # Server(伺服器)位址

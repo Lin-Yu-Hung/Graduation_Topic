@@ -2,6 +2,18 @@ from turtle import mode
 from unicodedata import category, name
 from django.db import models
 
+class total_db(models.Model):  # 設計LINE Bot所需要使用的資料表(Table)欄位
+    name = models.CharField(max_length=100, default="")  # 名稱
+    total = models.IntegerField(default="0")  # 價格
+
+class db(models.Model):  # 設計LINE Bot所需要使用的資料表(Table)欄位
+    vendor = models.CharField(max_length=100, default="")  # 名稱
+    name = models.CharField(max_length=100, default="")  # 名稱
+    price = models.IntegerField(default="")  # 價格
+    pc_images = models.CharField(max_length=3000, default="")  # 圖片網址
+    url_list = models.CharField(max_length=3000, default="")  # 商品連結
+
+
 
 class display(models.Model):  # 設計LINE Bot所需要使用的資料表(Table)欄位
     vendor = models.CharField(max_length=100, default="")  # 名稱
@@ -103,20 +115,3 @@ class Power(models.Model):  # 設計LINE Bot所需要使用的資料表(Table)�
     Watts = models.CharField(max_length=100, default="")  # 名稱
 
 
-# Create your models here.
-class Category (models.Model):
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-
-class Product (models.Model):
-
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    sku = models.CharField(max_length=20)
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    image = models.URLField(null=True)
-    website = models.URLField(null=True)
-    stock = models.PositiveIntegerField(default=0)
-    price = models.DecimalField(max_digits=10,decimal_places=2,default=0)

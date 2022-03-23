@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls import url
-from func3api import views
+from func3api import views,func
+
 
 urlpatterns = [
     url('^callback', views.callback),
-    url('^$',views.index),
     url('^cpu/$', views.cpu1),
     url('^liff/$', views.liff),
-    path('admin/', admin.site.urls),
+    url('^test/$', views.listall ),
+    path('', admin.site.urls),
 ]

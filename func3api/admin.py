@@ -2,6 +2,11 @@ from django.contrib import admin
 from func3api import models
 from func3api.models import *
 
+class total_dbAdmin(admin.ModelAdmin):
+    list_display = ('id','total')
+
+class dbAdmin(admin.ModelAdmin):
+    list_display = ('id','vendor', 'name', 'price', 'url_list',)
 
 class displayAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'price', 'commodity',
@@ -75,9 +80,7 @@ class AllAdmin(admin.ModelAdmin):
     ordering = ('id',)
 
 
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ('category', 'sku', 'name', 'stock', 'price') 
-    ordering = ('category',)
+
 
 
 admin.site.register(display, displayAdmin)
@@ -89,5 +92,5 @@ admin.site.register(MB, MBAdmin)
 admin.site.register(Memory, MemoryAdmin)
 admin.site.register(Power, PowerAdmin)
 admin.site.register(All, AllAdmin)
-admin.site.register(Product, ProductAdmin)
-admin.site.register(Category)
+admin.site.register(db, dbAdmin)
+admin.site.register(total_db, total_dbAdmin)

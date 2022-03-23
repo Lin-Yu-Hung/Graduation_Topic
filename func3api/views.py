@@ -1,8 +1,9 @@
+from operator import length_hint
 from typing import Text
 from django.core.paginator import *
 from urllib.request import Request
 from django.template.loader import *
-#from django.db.models.fields import _ErrorMessagesToOverride, TextField
+from django.contrib import messages
 from django.shortcuts import *
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
@@ -13,11 +14,10 @@ import subprocess
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import *
-from module import func
 from urllib.parse import parse_qsl
 import web_crawler
 from .filters import *
-from module import func
+from func3api import func
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
@@ -30,9 +30,7 @@ def listone(request):
     unit = display.objects.get(id=8)
     return render(request,'listone.html',locals())
 
-def listall(request):
-    cpu_all = cpu.objects.all()
-    return render(request, 'listall.html', locals())
+
 
 
 def ssd1(request):
@@ -40,6 +38,34 @@ def ssd1(request):
     return render(request, 'ssd.html', locals())
 
 """
+
+
+@csrf_exempt
+
+
+
+def listall(request):
+    test1 = db.objects.all()
+    
+    if total_db.objects.filter(name="total1").exists():
+        total = total_db.objects.filter(name="total1").first()
+    else:
+        total = total_db.objects.get(name="total")
+    
+    if request.method=="POST":
+    
+        result = request.POST['button']
+        print(result)
+        if result == 'Yes' and total_db.objects.filter(name="total1").exists():
+            Delete_all = db.objects.all()
+            Delete_all.delete()
+            Delete_total = total_db.objects.filter(name="total1")
+            Delete_total.delete()
+        else:
+            pass
+
+    return render(request, 'test.html', locals())
+
 def liff(request):
     cpus = cpu.objects.get(id=8)
     return render(request, 'index_form.html', locals())
@@ -59,25 +85,6 @@ def cpu1(request):
     }
 
     return render(request, 'cpu.html', context)
-
-
-def index(request):
-    all_products = Product.objects.all()
-
-    paginator = Paginator(all_products,5)
-    p = request.GET.get('p')
-    try:
-        product = paginator.page(p)
-    except PageNotAnInteger:
-        products = paginator.page(1)
-    except EmptyPage:
-        products = paginator.page(paginator.num_pages)
-    
-    templates = get_template('index_1.html')
-    request_context = RequestContext(request)
-    request_context.push(locals())
-    html = templates.render(request_context)
-    return HttpResponse(html)
 
 
 
@@ -104,16 +111,19 @@ def callback(request):
                 if isinstance(event, MessageEvent):  # 如果有訊息事件
                     msg = event.message.text
 
-                if msg[:3] == '###' and len(msg) > 3:      
-                    func.manageForm(event, msg)
+                if msg[:3] == '###' and len(msg) > 3:
+                    func.manageForm(event,msg)
+              
+                    
                 
-                if msg[:3] == '查詢:':
-                    func.ALL_data_inquire(event, msg)
+                if msg== '123':
+                    Delete_all = db.objects.all()
+                    Delete_all.delete()
                     
                 
                 if 'pc+' in msg:
                         keyword = msg.split('+')[1]
-                        message = web_crawler.youtube_vedio_parser(keyword)
+                        message = web_crawler.web_crawler(keyword)
                         line_bot_api.reply_message(event.reply_token, message)
 
                 if event.message.text == "@傳送位置":

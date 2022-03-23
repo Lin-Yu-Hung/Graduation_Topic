@@ -18,4 +18,4 @@ DELETE FROM table_name WHERE column_name operator value;
 
 5640 *
 5400
-UPDATE hdd_希捷seagate SET 容量='容量：18TB' WHERE commodity like "%18TB%";
+UPDATE hdd_希捷seagate SET 容量='容量18TB' WHERE commodity like "%18TB%";
