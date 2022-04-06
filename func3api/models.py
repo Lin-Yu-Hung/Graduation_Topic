@@ -1,7 +1,14 @@
+import email
 from turtle import mode
 from unicodedata import category, name
 from django.db import models
+from django.contrib.auth.models import User
 
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, verbose_name='帳號名稱')
+ 
 class total_db(models.Model):  # 設計LINE Bot所需要使用的資料表(Table)欄位
     name = models.CharField(max_length=100, default="")  # 名稱
     total = models.IntegerField(default="0")  # 價格
@@ -52,9 +59,16 @@ class ssd(models.Model):  # 設計LINE Bot所需要使用的資料表(Table)欄�
 
 
 class All(models.Model):  # 設計LINE Bot所需要使用的資料表(Table)欄位
-    
     vendor = models.CharField(max_length=100, default="")  # 名稱
     name_all = models.CharField(max_length=100, default="")  # 名稱
+    price = models.IntegerField(default="")  # 價格
+    commodity = models.CharField(max_length=3000, default="")
+    url_list = models.CharField(max_length=3000, default="")  # 商品連結
+    pc_images = models.CharField(max_length=3000, default="")  # 圖片網址
+
+class cartdb(models.Model): 
+    vendor = models.CharField(max_length=100, default="")  # 名稱
+    name = models.CharField(max_length=100, default="")  # 名稱
     price = models.IntegerField(default="")  # 價格
     commodity = models.CharField(max_length=3000, default="")
     url_list = models.CharField(max_length=3000, default="")  # 商品連結

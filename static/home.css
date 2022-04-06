@@ -1,11 +1,33 @@
 body{
-    background-color:#81837a;
+    background-color:#cccccc;
+}
+#title{
+	text-decoration:none;
+	display: flex;
+	color: rgb(12, 7, 24);
+	font-size: 50px;
+	font-weight:bolder;
+	
+}
+.title{
+	display: flex;
+	flex-direction: row;
+	background-color: aliceblue;
+	justify-content: center;
+	width: 100%;
+	position: relative;
+}
+.log{
+	position: absolute;
+	right: 300px;
+}
+.res{
+	position: absolute;
+	right: 350px;
+	margin-top: -5px8jjjjjjjjjjjjjjj;
+
 }
 
-table{
-	word-wrap: break-word;
-	width:100px;
-}
 .h1{
     color:red;
     margin: 10px;
@@ -29,14 +51,14 @@ ul {
     padding: 5px;
 	font-family:Microsoft JhengHei;
 	font-weight:bolder;
-	font-size:20px;  
+	font-size:25px;  
 }
 
 li a {
     display: block;
     color: white;
     text-align: center;
-    padding: 20px 20px;
+    padding: 10px 10px;
     text-decoration: none;
 	font-weight:1000;
 }
@@ -44,16 +66,11 @@ li a {
 li a:hover {
     background-color:rebeccapurple;
 }
-.but{
-	display: flex;
-	position: absolute;
-	font-weight: bold;
-    top: 0px;
-    right : 0px;
-}
+
 .tab{
 	margin: 10px;
     padding: 5px;
+	
 }
 .hot{
 	width: 60%;

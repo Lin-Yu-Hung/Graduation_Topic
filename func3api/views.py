@@ -1,5 +1,7 @@
+from ast import Pass
 from operator import length_hint
 from typing import Text
+from urllib import request
 from django.core.paginator import *
 from urllib.request import Request
 from django.template.loader import *
@@ -10,6 +12,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbid
 from django.views.decorators.csrf import csrf_exempt
 from numpy import product
 from func3api.models import *
+from django.db.models import Sum
 import subprocess
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
@@ -41,11 +44,29 @@ def ssd1(request):
 
 
 @csrf_exempt
+def CART(request):
+
+    cart_all = cartdb.objects.all()
+    total = cartdb.objects.aggregate(Sum('price'))
+    
+    if request.method=="POST":
+        cart_result = request.POST['cart_del']
+        if cart_result == 'NO':
+            pass
+        else:
+            delcart = cartdb.objects.filter(name=cart_result)
+            delcart.delete()
 
 
+    return render(request,"cart.html",locals())
 
+    
+def index(request):
+
+    return render(request,"home.html",locals())
 def listall(request):
-    test1 = db.objects.all()
+    
+    total = db.objects.aggregate(Sum('price'))
     
     if total_db.objects.filter(name="total1").exists():
         total = total_db.objects.filter(name="total1").first()
@@ -73,15 +94,41 @@ def liff(request):
 def cpu1(request):
     cpus = cpu.objects.all().order_by('-price')
     all_data = All.objects.all()
-    
+    a = 1
+    List = map(str, range(100))
+    if request.method == "POST":
+        cart = request.POST.get('cart_name')
+        print(cart)
+        if cart == 'NO' or None :
+            pass
+        elif All.objects.filter(name_all=cart).exists():
+            cartname = All.objects.get(name_all=cart)
+            CARTname = cartname.name_all
+            CARTvendor = cartname.vendor
+            CARTprice = cartname.price
+            CARTcommodity = cartname.commodity
+            CARTurl_list = cartname.url_list
+            CARTpc_images = cartname.pc_images
+            save_cartdb = cartdb.objects.create(
+                vendor=CARTvendor, name=CARTname, price=CARTprice,
+                commodity=CARTcommodity, url_list=CARTurl_list, pc_images=CARTpc_images,  )  # 新增資料
+
+            save_cartdb.save()  # 儲存資料
+
+
+   
+        
+
     aFilter = cpuFilter(queryset=cpus)
     Filter_all = allFilter(queryset=all_data)
     if request.method == "POST":
             aFilter = cpuFilter(request.POST, queryset=cpus) #queryset查詢集
             Filter_all = allFilter(request.POST, queryset=all_data)
+            
     context = {
         'aFilter': aFilter,
-        'Filter_all': Filter_all
+        'Filter_all': Filter_all,
+        
     }
 
     return render(request, 'cpu.html', context)
@@ -114,11 +161,6 @@ def callback(request):
                 if msg[:3] == '###' and len(msg) > 3:
                     func.manageForm(event,msg)
               
-                    
-                
-                if msg== '123':
-                    Delete_all = db.objects.all()
-                    Delete_all.delete()
                     
                 
                 if 'pc+' in msg:

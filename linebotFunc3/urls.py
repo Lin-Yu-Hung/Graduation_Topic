@@ -18,11 +18,13 @@ from django.urls import path,include
 from django.conf.urls import url
 from func3api import views,func
 
-
+app_name = 'account'
 urlpatterns = [
     url('^callback', views.callback),
     url('^cpu/$', views.cpu1),
     url('^liff/$', views.liff),
     url('^test/$', views.listall ),
+    url('^cart/$', views.CART),
+    url('^index/$', views.index),
     path('', admin.site.urls),
 ]

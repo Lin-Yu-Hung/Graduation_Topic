@@ -354,26 +354,47 @@ def manageForm(event, mtext ):
                                         "align": "end"
                                     }
                                 ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "主機板",
-                                        "size": "xl",
-                                        "weight": "bold"
-                                    },
-                                    {
-                                        "type": "separator",
-                                        "color": "#000000"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": str(MB_NAME),
+                            }
+                        ],
+                        "margin": "sm",
+                        
+
+                    },
+                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "主機板",
+                                                "size": "xl",
+                                                "weight": "bold"
+                                            },
+                                            {
+                                                "type": "separator",
+                                                "color": "#000000"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": str(MB_NAME),
+                                                "margin": "sm",
+                                                "wrap": True
+                                            },
+                                            {
+                                                "type": "box",
+                                                "layout": "vertical",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": "價格$"+str(MB_price),
+                                                        "align": "end"
+                                                    }
+                                                ]
+                                            }
+                                        ],
                                         "margin": "sm",
-                                        "wrap": True
+                                        "backgroundColor": "#EEE9E9",
+                                        
                                     },
                                     {
                                         "type": "box",
@@ -381,33 +402,34 @@ def manageForm(event, mtext ):
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "價格$"+str(MB_price),
-                                                "align": "end"
+                                                "text": "固態硬碟SSD",
+                                                "size": "xl",
+                                                "weight": "bold"
+                                            },
+                                            {
+                                                "type": "separator",
+                                                "color": "#000000"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": str(SSD_name),
+                                                "margin": "sm",
+                                                "wrap": True
+                                            },
+                                            {
+                                                "type": "box",
+                                                "layout": "vertical",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": "價格$"+str(SSD_price),
+                                                        "align": "end"
+                                                    }
+                                                ]
                                             }
-                                        ]
-                                    }
-                                ],
-                                "margin": "sm"
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "固態硬碟SSD",
-                                        "size": "xl",
-                                        "weight": "bold"
-                                    },
-                                    {
-                                        "type": "separator",
-                                        "color": "#000000"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": str(SSD_name),
+                                        ],
                                         "margin": "sm",
-                                        "wrap": True
+                                        
                                     },
                                     {
                                         "type": "box",
@@ -415,44 +437,35 @@ def manageForm(event, mtext ):
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "價格$"+str(SSD_price),
-                                                "align": "end"
-                                            }
-                                        ]
-                                    }
-                                ],
-                                "margin": "sm"
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "傳統硬碟HDD",
-                                        "size": "xl",
-                                        "weight": "bold"
-                                    },
-                                    {
-                                        "type": "separator",
-                                        "color": "#000000"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": str(HDD_name),
-                                        "margin": "sm",
-                                        "wrap": True
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
+                                                "text": "傳統硬碟HDD",
+                                                "size": "xl",
+                                                "weight": "bold"
+                                            },
+                                            {
+                                                "type": "separator",
+                                                "color": "#000000"
+                                            },
                                             {
                                                 "type": "text",
-                                                "text": "價格$"+str(HDD_price),
-                                                "align": "end"
+                                                "text": str(HDD_name),
+                                                "margin": "sm",
+                                                "wrap": True
+                                            },
+                                            {
+                                                "type": "box",
+                                                "layout": "vertical",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": "價格$"+str(HDD_price),
+                                                        "align": "end"
+                                                    }
+                                                ]
                                             }
-                                        ]
+                                        ],
+                                        "margin": "sm",
+                                        "backgroundColor": "#EEE9E9",
+                                        
                                     },
                                     {
                                         "type": "box",
@@ -486,7 +499,8 @@ def manageForm(event, mtext ):
                                                 ]
                                             }
                                         ],
-                                        "margin": "sm"
+                                        "margin": "sm",
+                                        
                                     },
                                     {
                                         "type": "box",
@@ -518,6 +532,31 @@ def manageForm(event, mtext ):
                                                         "align": "end"
                                                     }
                                                 ]
+                                            }
+                                        ],
+                                        "margin": "sm",
+                                        "backgroundColor": "#EEE9E9",
+                                        
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "電源供應器",
+                                                "size": "xl",
+                                                "weight": "bold"
+                                            },
+                                            {
+                                                "type": "separator",
+                                                "color": "#000000"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": str(POWER_name),
+                                                "margin": "sm",
+                                                "wrap": True
                                             },
                                             {
                                                 "type": "box",
@@ -525,106 +564,81 @@ def manageForm(event, mtext ):
                                                 "contents": [
                                                     {
                                                         "type": "text",
-                                                        "text": "電源供應器",
-                                                        "size": "xl",
-                                                        "weight": "bold"
-                                                    },
-                                                    {
-                                                        "type": "separator",
-                                                        "color": "#000000"
-                                                    },
-                                                    {
-                                                        "type": "text",
-                                                        "text": str(POWER_name),
-                                                        "margin": "sm",
-                                                        "wrap": True
-                                                    },
-                                                    {
-                                                        "type": "box",
-                                                        "layout": "vertical",
-                                                        "contents": [
-                                                            {
-                                                                "type": "text",
-                                                                "text": "價格$"+str(POWER_price),
-                                                                "align": "end"
-                                                            }
-                                                        ]
-                                                    },
-                                                    {
-                                                        "type": "box",
-                                                        "layout": "vertical",
-                                                        "contents": [
-                                                            {
-                                                                "type": "text",
-                                                                "text": "機殼",
-                                                                "size": "xl",
-                                                                "weight": "bold"
-                                                            },
-                                                            {
-                                                                "type": "separator",
-                                                                "color": "#000000"
-                                                            },
-                                                            {
-                                                                "type": "text",
-                                                                "text": str(CASE_name),
-                                                                "margin": "sm",
-                                                                "wrap": True
-                                                            },
-                                                            {
-                                                                "type": "box",
-                                                                "layout": "vertical",
-                                                                "contents": [
-                                                                    {
-                                                                        "type": "text",
-                                                                        "text": "價格$"+str(CASE_price),
-                                                                        "align": "end"
-                                                                    }
-                                                                ]
-                                                            },
-                                                            {
-                                                                "type": "box",
-                                                                "layout": "vertical",
-                                                                "contents": [
-                                                                    {
-                                                                        "type": "separator",
-                                                                        "color": "#000000"
-                                                                    },
-                                                                    {
-                                                                        "type": "text",
-                                                                        "text": "總計$"+str(total_price),
-                                                                        "margin": "md",
-                                                                        "align": "end",
-                                                                        "weight": "bold",
-                                                                        "size":"lg"
-                                                                    },
-                                                                    {
-                                                                        "type": "button",
-                                                                        "action": {
-                                                                            "type": "uri",
-                                                                            "label": "購買連結",
-                                                                            "uri": "http://127.0.0.1:8000/test/"
-                                                                        },
-                                                                        "style": "primary",
-                                                                        "height": "sm",
-                                                                        "margin": "md"
-                                                                    }
-                                                                ]
-                                                            }
-                                                        ],
-                                                        "margin": "sm"
+                                                        "text": "價格$"+str(POWER_price),
+                                                        "align": "end"
                                                     }
-                                                ],
-                                                "margin": "sm"
+                                                ]
                                             }
                                         ],
-                                        "margin": "sm"
-                                    }
-                                ],
-                                "margin": "sm"
+                                        "margin": "sm",
+                                        
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "機殼",
+                                                "size": "xl",
+                                                "weight": "bold"
+                                            },
+                                            {
+                                                "type": "separator",
+                                                "color": "#000000"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": str(CASE_name),
+                                                "margin": "sm",
+                                                "wrap": True
+                                            },
+                                            {
+                                                "type": "box",
+                                                "layout": "vertical",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": "價格$"+str(CASE_price),
+                                                        "align": "end"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "margin": "sm",
+                                        "backgroundColor": "#EEE9E9",
+                                        
+                                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "separator",
+                                "color": "#000000"
+                            },
+                            {
+                                "type": "text",
+                                "text": "總計$"+str(total_price),
+                                "margin": "md",
+                                "align": "end",
+                                "weight": "bold",
+                                "size": "lg"
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "購買連結",
+                                    "uri": "http://127.0.0.1:8000/test/"
+                                },
+                                "style": "primary",
+                                "height": "sm",
+                                "margin": "md"
                             }
-                        ],
-                        "margin": "sm"
+                        ]
                     }
+
                 ]
             },
             "styles": {

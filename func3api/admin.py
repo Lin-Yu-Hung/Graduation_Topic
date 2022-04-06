@@ -1,6 +1,8 @@
 from django.contrib import admin
 from func3api import models
 from func3api.models import *
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 
 class total_dbAdmin(admin.ModelAdmin):
     list_display = ('id','total')
@@ -94,3 +96,5 @@ admin.site.register(Power, PowerAdmin)
 admin.site.register(All, AllAdmin)
 admin.site.register(db, dbAdmin)
 admin.site.register(total_db, total_dbAdmin)
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
