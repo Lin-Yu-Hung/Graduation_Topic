@@ -3,7 +3,25 @@ from turtle import mode
 from unicodedata import category, name
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django.utils.timezone import now
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib.contenttypes.fields import GenericRelation
 
+
+class Post(models.Model, HitCountMixin):
+    title = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
+    published_on = models.DateTimeField(blank=True, default=None, null=True)
+    content = models.TextField(blank=True)
+
+    hit_count_generic = GenericRelation(
+        HitCount, object_id_field='object_pk',
+        related_query_name='hit_count_generic_relation'
+    )
+
+    def current_hit_count(self):
+        return self.hit_count.hits
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
@@ -127,5 +145,7 @@ class Power(models.Model):  # 設計LINE Bot所需要使用的資料表(Table)�
     url_list = models.CharField(max_length=3000, default="")  # 商品連結
     pc_images = models.CharField(max_length=3000, default="")  # 圖片網址
     Watts = models.CharField(max_length=100, default="")  # 名稱
+
+
 
 

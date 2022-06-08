@@ -1,6 +1,18 @@
-body{
-    background-color:#d1dac1;
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
+body{
+    background-color: antiquewhite;
+	
+	
+}
+::selection {
+	color: #d4edda;
+	background-color: black;
+}
+
 .center{
     text-align: center;
 
@@ -19,40 +31,63 @@ body{
 	font-weight:bolder;
 	position: relative;
 }
+
 .searcht{
    position:relative;
     right:0px;
     font-size: 20px;
 }
-ul {
+.login{
+	position: sticky;
+	top: 0;
+}
+.list {
+	
 	display: flex;
 	justify-content: space-around;
-	background-color:black;
+	background-color:rgb(0, 0, 0);
 	list-style: none;
 	margin: 10px;
     padding: 5px;
 	font-family:Microsoft JhengHei;
 	font-weight:bolder;
 	font-size:20px;   
+	position: sticky;
+	top:40px;
+	height: 70px;
+	left: 0;
+	right: 0%;
+}
+.but input[type="button"]{
+	color: #155724;
+	background-color: #d4edda;
+	border: #b3b5b3 solid 0.25px;
+	width: 100px;
+	height: 40px;
+	font-size: 20px;
+	font-weight: bolder;
+	
+
+}
+.list a {
+	text-decoration: none;
+
+}
+.box:hover{
+	background-color: #8ea594;
+}
+	
+.box{
+	color: white;
+	padding: 10px;
+	font-size: 2rem;
 }
 
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 20px 20px;
-    text-decoration: none;
-	font-weight:1000;
-}
-
-li a:hover {
-    background-color:rebeccapurple;
-}
 .but{
 	display: flex;
 	position: absolute;
 	font-weight: bold;
-    top: 0px;
+    top:0;
     right : 0px;
 }
 table{
@@ -61,11 +96,14 @@ table{
 }
 th{
 	font-size:15px;
+	position: sticky;
+	
+	top: 120px;
 	
 }
 .pron_name{
 	font-size: 20px;
-	color:blue;
+	color:rgb(206, 206, 206);
 }
 .nick{
 	line-height:1;
@@ -74,5 +112,18 @@ th{
 .Price{
 	font-size: 20px;
 }
+div.messages{
+	padding: 10px;
+	color: #155724;
+	background-color: #d4edda;
+	border-color: #c3e6cb;
+	font-weight: bolder;
+	font-size: 20px;
+	border: 1px solid transparent;
+	border-radius: 0.25rem;
+}
 
 
+div.as{
+	height: 45px;
+}

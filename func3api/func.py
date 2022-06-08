@@ -1,3 +1,4 @@
+from argparse import Action
 from django.shortcuts import *
 from email import message
 from tokenize import Name
@@ -13,106 +14,592 @@ from bs4 import BeautifulSoup
 from urllib.request import urlretrieve
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 
+"""
 
+def reccpu(event):  # 推薦cpu
+    try:
+        message = TextSendMessage(
+            text='請選擇選購商品',
+            quick_reply=QuickReply(
+                items=[
+                    QuickReplyButton(
+                        action=MessageAction(label="CPU", text="推薦CPU")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="GPU", text="推薦GPU")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="主機板", text="推薦主機板")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="滑鼠", text="推薦滑鼠")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="鍵盤", text="推薦鍵盤")
+                    ),
 
-def ALL_data_inquire(event,data_text):
-    datalist = data_text[3:]
-    if All.objects.filter(name_all=datalist).exists():
-        a1 = All.objects.get(name_all = datalist)
-        print("結果"+str(a1.price))
-        flex_message = FlexSendMessage(
+                ]
+
+            )
+
+        )
+
+        line_bot_api.reply_message(event.reply_token, message)
+    except:
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text='發生錯誤！'))
+
+"""
+def select(event, mtext): #查詢
+    flist = mtext[3:].split('$')
+
+    price = flist[1].split('~')
+    
+    if(price[0]=='不限制'):
+        min_price = 0
+        max_price = 999999
+    elif (price[1]=='以上'):
+        min_price = price[0]
+        max_price = 999999
+    else:
+        min_price = price[0]
+        max_price = price[1]
+
+        
+    like = '%'+flist[2]+'%'
+    like2 = flist[2]+'%'
+    name1 = flist[2]
+
+    if flist[0] == 'func3api_cpu':
+        result = cpu.objects.raw(
+            'SELECT * FROM func3api_cpu where (price > %s  and price < %s) and (name LIKE %s or name LIKE %s or name=%s) order by price limit 5;',
+            [min_price, max_price, like, like2, name1])
+    elif flist[0] == 'func3api_display':
+        result = display.objects.raw(
+            'SELECT * FROM func3api_display where (price > %s  and price < %s) and (name LIKE %s or name LIKE %s or name=%s) order by price limit 5;',
+            [min_price, max_price, like, like2, name1])
+    elif flist[0] == 'func3api_ssd':
+        result = ssd.objects.raw(
+            'SELECT * FROM func3api_ssd where (price > %s  and price < %s) and (name LIKE %s or name LIKE %s or name=%s) order by price limit 5;',
+            [min_price, max_price, like, like2, name1])
+    elif flist[0] == 'func3api_hdd':
+        result = hdd.objects.raw(
+            'SELECT * FROM func3api_hdd where (price > %s  and price < %s) and (name LIKE %s or name LIKE %s or name=%s) order by price limit 5;',
+            [min_price, max_price, like, like2, name1])
+    elif flist[0] == 'func3api_mb':
+        result = MB.objects.raw(
+            'SELECT * FROM func3api_mb where (price > %s  and price < %s) and (name LIKE %s or name LIKE %s or name=%s) order by price limit 5;',
+            [min_price, max_price, like, like2, name1])
+    elif flist[0] == 'func3api_memory':
+        result = Memory.objects.raw(
+            'SELECT * FROM func3api_memory where (price > %s  and price < %s) and (name LIKE %s or name LIKE %s or name=%s) order by price limit 5;',
+            [min_price, max_price, like, like2, name1])
+    elif flist[0] == 'func3api_power':
+        result = Power.objects.raw(
+            'SELECT * FROM func3api_power where (price > %s  and price < %s) and (name LIKE %s or name LIKE %s or name=%s) order by price limit 5;',
+            [min_price, max_price, like, like2, name1])
+    else:
+        result = chassis.objects.raw(
+            'SELECT * FROM func3api_chassis where (price > %s  and price < %s) and (name LIKE %s or name LIKE %s or name=%s) order by price limit 5;',
+            [min_price, max_price, like, like2, name1])
+
+    print(flist[0])
+    print(result.query)
+    for i in result:
+        print(i.name)
+    print(len(result))
+
+    result1_name = '查無結果'
+    result1_commodity = '查無結果'
+    result1_price = 0
+    result1_url_list = 'https://24h.pchome.com.tw/'
+    result1_pc_images = 'https://www.iaila.nat.gov.tw/images/notFound_ch.png'
+
+    result2_name = '查無結果'
+    result2_commodity = '查無結果'
+    result2_price = 0
+    result2_url_list = 'https://24h.pchome.com.tw/'
+    result2_pc_images = 'https://www.iaila.nat.gov.tw/images/notFound_ch.png'
+
+    result3_name = '查無結果'
+    result3_commodity = '查無結果'
+    result3_price = 0
+    result3_url_list = 'https://24h.pchome.com.tw/'
+    result3_pc_images = 'https://www.iaila.nat.gov.tw/images/notFound_ch.png'
+
+    result4_name = '查無結果'
+    result4_commodity = '查無結果'
+    result4_price = 0
+    result4_url_list = 'https://24h.pchome.com.tw/'
+    result4_pc_images = 'https://www.iaila.nat.gov.tw/images/notFound_ch.png'
+
+    result5_name = '查無結果'
+    result5_commodity = '查無結果'
+    result5_price = 0
+    result5_url_list = 'https://24h.pchome.com.tw/'
+    result5_pc_images = 'https://www.iaila.nat.gov.tw/images/notFound_ch.png'
+
+    if len(result) >= 1:
+        result1_name = result[0].name
+        result1_commodity = result[0].commodity
+        result1_price = result[0].price
+        result1_url_list = result[0].url_list
+        result1_pc_images = result[0].pc_images
+    if len(result) >= 2:
+        result2_name = result[1].name
+        result2_commodity = result[1].commodity
+        result2_price = result[1].price
+        result2_url_list = result[1].url_list
+        result2_pc_images = result[1].pc_images
+    if len(result) >= 3:
+        result3_name = result[2].name
+        result3_commodity = result[2].commodity
+        result3_price = result[2].price
+        result3_url_list = result[2].url_list
+        result3_pc_images = result[2].pc_images
+    if len(result) >= 4:
+        result4_name = result[3].name
+        result4_commodity = result[3].commodity
+        result4_price = result[3].price
+        result4_url_list = result[3].url_list
+        result4_pc_images = result[3].pc_images
+    if len(result) == 5:
+        result5_name = result[4].name
+        result5_commodity = result[4].commodity
+        result5_price = result[4].price
+        result5_url_list = result[4].url_list
+        result5_pc_images = result[4].pc_images
+
+    try:
+        reply_arr = []
+        reply_arr.append(TextSendMessage(
+            text=("查詢結果為%s筆資料,最多5筆" % (len(result)))
+        ))
+
+        reply_arr.append(FlexSendMessage(
             alt_text='搜尋結果',
             contents={
-                "type": "bubble",
-                        "hero": {
-                            "type": "image",
-                            "url": str(display_name.pc_images),
-                            "size": "full",
-                            "aspectRatio": "3:2",
-                            "aspectMode": "cover",
-                            "action": {
-                                "type": "uri",
-                                        "uri": str(display_name.url_list)
-                            }
-                        },
-                "body": {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "md",
-                            "action": {
-                                    "type": "uri",
-                                "uri": "https://linecorp.com"
+
+                "type": "carousel",
+                "contents": [
+                        {
+                            "type": "bubble",
+                            "size": "kilo",
+                            "hero": {
+                                "type": "image",
+                                "url": str(result1_pc_images),
+                                "size": "full",
+                                "aspectMode": "cover",
+                                "aspectRatio": "10:8"
                             },
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "價格:"+str(display_name.price),
-                                    "size": "xxl",
-                                    "weight": "bold"
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "vertical",
-                                    "spacing": "sm",
-                                    "contents": [
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": str(result1_name),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "wrap": True
+                                            }
+                                        ],
+                                        "height": "80px",
+                                        "maxHeight": "80px",
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
                                             {
                                                 "type": "box",
                                                 "layout": "baseline",
+                                                "spacing": "sm",
                                                 "contents": [
-                                                        {
-                                                            "type": "icon",
-                                                            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/restaurant_regular_32.png"
-                                                        },
                                                     {
-                                                            "type": "text",
-                                                            "text": "詳細資訊",
-                                                            "weight": "bold",
-                                                            "margin": "sm",
-                                                            "flex": 0,
-                                                            "size": "lg"
-                                                        }
+                                                        "type": "text",
+                                                        "text": str(result1_commodity),
+                                                        "wrap": True,
+                                                        "color": "#8c8c8c",
+                                                        "size": "md"
+                                                    }
                                                 ]
                                             }
-                                    ]
-                                },
-                                {
-                                    "type": "text",
-                                    "text": str(display_name.commodity),
-                                    "wrap": True,
-                                    "color": "#000000",
-                                    "size": "xxs"
-                                }
-                            ]
+                                        ],
+                                        "height": "110px",
+                                        "maxHeight": "110px",
+                                    },
+                                    {
+                                        "type": "separator",
+                                        "color": "#000000"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "$"+str(result1_price),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "align": "end"
+                                            }
+                                        ],
+
+                                    }
+                                ],
+                                "spacing": "sm",
+                                "paddingAll": "13px"
+                            },
+                            "action": {
+                                "type": "uri",
+                                "label": "action",
+                                "uri": str(result1_url_list)
+                            }
                         },
-                "footer": {
-                            "type": "box",
-                            "layout": "vertical",
-                            "contents": [
+                    {
+                            "type": "bubble",
+                            "size": "kilo",
+                            "hero": {
+                                "type": "image",
+                                "url": str(result2_pc_images),
+                                "size": "full",
+                                "aspectMode": "cover",
+                                "aspectRatio": "10:8"
+                            },
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": str(result2_name),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "wrap": True
+                                            }
+                                        ],
+                                        "height": "80px",
+                                        "maxHeight": "80px",
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "box",
+                                                "layout": "baseline",
+                                                "spacing": "sm",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": str(result2_commodity),
+                                                        "wrap": True,
+                                                        "color": "#8c8c8c",
+                                                        "size": "md"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "height": "110px",
+                                        "maxHeight": "110px",
+                                    },
+                                    {
+                                        "type": "separator",
+                                        "color": "#000000"
+                                    },
 
                                     {
-                                        "type": "button",
-                                        "style": "primary",
-                                        "color": "#905c44",
-                                        "action": {
-                                                "type": "uri",
-                                                "label": "購買連結",
-                                                "uri": str(display_name.url_list)
-                                        }
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "$"+str(result2_price),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "align": "end"
+                                            }
+                                        ]
                                     }
-                            ]
-                        }
+                                ],
+                                "spacing": "sm",
+                                "paddingAll": "13px"
+                            },
+                            "action": {
+                                "type": "uri",
+                                "label": "action",
+                                "uri": str(result2_url_list)
+                            }
+                            },
+                    {
+                            "type": "bubble",
+                            "size": "kilo",
+                            "hero": {
+                                "type": "image",
+                                "url": str(result3_pc_images),
+                                "size": "full",
+                                "aspectMode": "cover",
+                                "aspectRatio": "10:8"
+                            },
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": str(result3_name),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "wrap": True
+                                            }
+                                        ],
+                                        "height": "80px",
+                                        "maxHeight": "80px",
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "box",
+                                                "layout": "baseline",
+                                                "spacing": "sm",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": str(result3_commodity),
+                                                        "wrap": True,
+                                                        "color": "#8c8c8c",
+                                                        "size": "md"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "height": "110px",
+                                        "maxHeight": "110px",
+                                    },
+                                    {
+                                        "type": "separator",
+                                        "color": "#000000"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "$"+str(result3_price),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "align": "end"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "spacing": "sm",
+                                "paddingAll": "13px"
+                            },
+                            "action": {
+                                "type": "uri",
+                                "label": "action",
+                                "uri": str(result3_url_list)
+                            }
+                        },
+                    {
+                            "type": "bubble",
+                            "size": "kilo",
+                            "hero": {
+                                "type": "image",
+                                "url": str(result4_pc_images),
+                                "size": "full",
+                                "aspectMode": "cover",
+                                "aspectRatio": "10:8"
+                            },
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": str(result4_name),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "wrap": True
+                                            }
+                                        ],
+                                        "height": "80px",
+                                        "maxHeight": "80px",
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "box",
+                                                "layout": "baseline",
+                                                "spacing": "sm",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": str(result4_commodity),
+                                                        "wrap": True,
+                                                        "color": "#8c8c8c",
+                                                        "size": "md"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "height": "110px",
+                                        "maxHeight": "110px",
+                                    },
+                                    {
+                                        "type": "separator",
+                                        "color": "#000000"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "$"+str(result4_price),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "align": "end"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "spacing": "sm",
+                                "paddingAll": "13px"
+                            },
+                            "action": {
+                                "type": "uri",
+                                "label": "action",
+                                "uri": str(result4_url_list)
+                            }
+                    },
+                    {
+                            "type": "bubble",
+                            "size": "kilo",
+                            "hero": {
+                                "type": "image",
+                                "url": str(result5_pc_images),
+                                "size": "full",
+                                "aspectMode": "cover",
+                                "aspectRatio": "10:8"
+                            },
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": str(result5_name),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "wrap": True
+                                            }
+                                        ],
+                                        "height": "80px",
+                                        "maxHeight": "80px",
+                                    },
+
+
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "box",
+                                                "layout": "baseline",
+                                                "spacing": "sm",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": str(result5_commodity),
+                                                        "wrap": True,
+                                                        "color": "#8c8c8c",
+                                                        "size": "md"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "height": "110px",
+                                        "maxHeight": "110px",
+
+                                    },
+                                    {
+                                        "type": "separator",
+                                        "color": "#000000"
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "$"+str(result5_price),
+                                                "weight": "bold",
+                                                "size": "lg",
+                                                "align": "end"
+
+                                            }
+                                        ]
+                                    },
+
+                                ],
+                                "spacing": "sm",
+                                "paddingAll": "13px"
+                            },
+                            "action": {
+                                "type": "uri",
+                                "label": "action",
+                                "uri": str(result5_url_list)
+                            }
+                    }
+
+                ]
+
             }
-        )
+        ))
 
         line_bot_api.reply_message(  # 回覆訊息
-            event.reply_token, flex_message
+            event.reply_token, reply_arr
         )
 
- 
-def manageForm(event, mtext ):
+    except:
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text='查無結果！'))
+
+
+def manageForm(event, mtext):  # 購物清單功能
 
     flist = mtext[3:].split('#')
-    
+
     if flist[0] == "請選擇CPU":
         CPU_name = "未選擇CPU"
         CPU_price = 0
@@ -130,13 +617,11 @@ def manageForm(event, mtext ):
         save_cpu = db.objects.create(
             vendor=cpu_vendor, name=CPU_name, price=CPU_price,
             pc_images=CPU_images, url_list=CPU_url,)  # 新增資料
-        save_cpu.save() #儲存資料
-
+        save_cpu.save()  # 儲存資料
     else:
         CPU_name = "資料錯誤"
         CPU_price = 0
         CPU_url = "https://24h.pchome.com.tw/"
-        
 
     if flist[1] == "請選擇主機板":
         MB_NAME = "未選擇主機板"
@@ -159,8 +644,6 @@ def manageForm(event, mtext ):
         MB_NAME = "資料錯誤"
         MB_price = 0
         MB_url = "https://24h.pchome.com.tw/"
-
-
 
     if flist[2] == "請選擇固態硬碟":
         SSD_name = "未選擇固態硬碟"
@@ -244,7 +727,6 @@ def manageForm(event, mtext ):
         MEMORY_vendor = Memory_name.vendor
         MEMORY_images = Memory_name.pc_images
 
-
         save_Memory = db.objects.create(
             vendor=MEMORY_vendor, name=MEMORY_name, price=MEMORY_price,
             pc_images=MEMORY_images, url_list=MEMORY_url, )  # 新增資料
@@ -301,10 +783,12 @@ def manageForm(event, mtext ):
 
     for i in range(8):
         print(flist[i])
-        
-    total_price = int(CPU_price)+int(MB_price)+int(SSD_price)+int(HDD_price)+int(Display_price)+int(MEMORY_price)+int(POWER_price)+int(CASE_price)
+
+    total_price = int(CPU_price)+int(MB_price)+int(SSD_price)+int(HDD_price) + \
+        int(Display_price)+int(MEMORY_price)+int(POWER_price)+int(CASE_price)
     print(total_price)
-    save_total = total_db.objects.create(name = "total1",total=total_price)  # 新增資料
+    save_total = total_db.objects.create(
+        name="total1", total=total_price)  # 新增資料
 
     save_total.save()  # 儲存資料
 
@@ -324,299 +808,359 @@ def manageForm(event, mtext ):
                         "margin": "none",
                         "color": "#1DB446"
                     },
+
                     {
                         "type": "box",
                         "layout": "vertical",
                         "contents": [
                             {
-                                "type": "text",
-                                "text": "CPU",
-                                "size": "xl",
-                                "weight": "bold"
+                                "type": "box",
+                                "layout": "horizontal",
+                                "margin": "md",
+                                "contents": [
+                                    {
+                                        "type": "text",
+
+                                        "text": "CPU",
+                                        "size": "xl",
+                                        "weight": "bold",
+                                        "flex": 0
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "$"+str(CPU_price),
+                                        "size": "lg",
+                                        "color": "#000000",
+                                        "weight": "bold",
+                                        "align": "end"
+                                    }
+                                ]
+
                             },
+
                             {
                                 "type": "separator",
-                                "color": "#000000"
+                                "color": "#000000",
+
                             },
                             {
                                 "type": "text",
                                 "text": str(CPU_name),
                                 "margin": "sm",
-                                "wrap": True
+                                "wrap": True,
+                                "padding": "xl"
                             },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "價格$"+str(CPU_price),
-                                        "align": "end"
-                                    }
-                                ]
-                            }
+
                         ],
-                        "margin": "sm",
-                        
+
 
                     },
                     {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "主機板",
-                                                "size": "xl",
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "separator",
-                                                "color": "#000000"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": str(MB_NAME),
-                                                "margin": "sm",
-                                                "wrap": True
-                                            },
-                                            {
-                                                "type": "box",
-                                                "layout": "vertical",
-                                                "contents": [
-                                                    {
-                                                        "type": "text",
-                                                        "text": "價格$"+str(MB_price),
-                                                        "align": "end"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "margin": "sm",
-                                        "backgroundColor": "#EEE9E9",
-                                        
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "md",
+                        "contents": [
+
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "margin": "md",
+                                "contents": [
+
+                                    {
+                                        "type": "text",
+                                        "text": "主機板",
+                                        "size": "xl",
+                                        "weight": "bold",
+                                        "flex": 0
                                     },
                                     {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "固態硬碟SSD",
-                                                "size": "xl",
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "separator",
-                                                "color": "#000000"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": str(SSD_name),
-                                                "margin": "sm",
-                                                "wrap": True
-                                            },
-                                            {
-                                                "type": "box",
-                                                "layout": "vertical",
-                                                "contents": [
-                                                    {
-                                                        "type": "text",
-                                                        "text": "價格$"+str(SSD_price),
-                                                        "align": "end"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "margin": "sm",
-                                        
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "傳統硬碟HDD",
-                                                "size": "xl",
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "separator",
-                                                "color": "#000000"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": str(HDD_name),
-                                                "margin": "sm",
-                                                "wrap": True
-                                            },
-                                            {
-                                                "type": "box",
-                                                "layout": "vertical",
-                                                "contents": [
-                                                    {
-                                                        "type": "text",
-                                                        "text": "價格$"+str(HDD_price),
-                                                        "align": "end"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "margin": "sm",
-                                        "backgroundColor": "#EEE9E9",
-                                        
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "顯示卡",
-                                                "size": "xl",
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "separator",
-                                                "color": "#000000"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": str(Display_name),
-                                                "margin": "sm",
-                                                "wrap": True
-                                            },
-                                            {
-                                                "type": "box",
-                                                "layout": "vertical",
-                                                "contents": [
-                                                    {
-                                                        "type": "text",
-                                                        "text": "價格$"+str(Display_price),
-                                                        "align": "end"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "margin": "sm",
-                                        
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "記憶體",
-                                                "size": "xl",
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "separator",
-                                                "color": "#000000"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": str(MEMORY_name),
-                                                "margin": "sm",
-                                                "wrap": True
-                                            },
-                                            {
-                                                "type": "box",
-                                                "layout": "vertical",
-                                                "contents": [
-                                                    {
-                                                        "type": "text",
-                                                        "text": "價格$"+str(MEMORY_price),
-                                                        "align": "end"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "margin": "sm",
-                                        "backgroundColor": "#EEE9E9",
-                                        
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "電源供應器",
-                                                "size": "xl",
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "separator",
-                                                "color": "#000000"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": str(POWER_name),
-                                                "margin": "sm",
-                                                "wrap": True
-                                            },
-                                            {
-                                                "type": "box",
-                                                "layout": "vertical",
-                                                "contents": [
-                                                    {
-                                                        "type": "text",
-                                                        "text": "價格$"+str(POWER_price),
-                                                        "align": "end"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "margin": "sm",
-                                        
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "機殼",
-                                                "size": "xl",
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "separator",
-                                                "color": "#000000"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": str(CASE_name),
-                                                "margin": "sm",
-                                                "wrap": True
-                                            },
-                                            {
-                                                "type": "box",
-                                                "layout": "vertical",
-                                                "contents": [
-                                                    {
-                                                        "type": "text",
-                                                        "text": "價格$"+str(CASE_price),
-                                                        "align": "end"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "margin": "sm",
-                                        "backgroundColor": "#EEE9E9",
-                                        
-                                    },
+                                        "type": "text",
+                                        "text": "$"+str(MB_price),
+                                        "size": "lg",
+                                        "color": "#111111",
+                                        "weight": "bold",
+                                        "align": "end"
+                                    }
+                                ]
+
+                            },
+                            {
+                                "type": "separator",
+                                "color": "#000000"
+                            },
+                            {
+                                "type": "text",
+                                "text": str(MB_NAME),
+                                "margin": "sm",
+                                "wrap": True
+                            },
+
+                        ],
+                        "margin": "sm",
+                        "backgroundColor": "#dcdcdc",
+
+                    },
                     {
                         "type": "box",
                         "layout": "vertical",
                         "contents": [
                             {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "margin": "md",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "固態硬碟SSD",
+                                        "size": "xl",
+                                        "weight": "bold",
+                                        "flex": 0
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "$"+str(SSD_price),
+                                        "size": "lg",
+                                        "color": "#111111",
+                                        "weight": "bold",
+                                        "align": "end"
+                                    }
+                                ]
+
+                            },
+                            {
                                 "type": "separator",
                                 "color": "#000000"
                             },
+                            {
+                                "type": "text",
+                                "text": str(SSD_name),
+                                "margin": "sm",
+                                "wrap": True
+                            },
+
+                        ],
+                        "margin": "sm",
+
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "margin": "md",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "傳統硬碟HDD",
+                                        "size": "xl",
+                                        "weight": "bold",
+                                        "flex": 0
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "$"+str(HDD_price),
+                                        "size": "lg",
+                                        "color": "#111111",
+                                        "weight": "bold",
+                                        "align": "end"
+                                    }
+                                ]
+
+                            },
+                            {
+                                "type": "separator",
+                                "color": "#000000"
+                            },
+                            {
+                                "type": "text",
+                                "text": str(HDD_name),
+                                "margin": "sm",
+                                "wrap": True
+                            },
+
+                        ],
+                        "margin": "sm",
+                        "backgroundColor": "#dcdcdc",
+
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "margin": "md",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "顯示卡",
+                                        "size": "xl",
+                                        "weight": "bold",
+                                        "flex": 0
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "$"+str(Display_price),
+                                        "size": "lg",
+                                        "color": "#111111",
+                                        "weight": "bold",
+                                        "align": "end"
+                                    }
+                                ]
+
+                            },
+                            {
+                                "type": "separator",
+                                "color": "#000000"
+                            },
+                            {
+                                "type": "text",
+                                "text": str(Display_name),
+                                "margin": "sm",
+                                "wrap": True
+                            },
+
+                        ],
+                        "margin": "sm",
+
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "margin": "md",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "記憶體",
+                                        "size": "xl",
+                                        "weight": "bold",
+                                        "flex": 0
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "$"+str(MEMORY_price),
+                                        "size": "lg",
+                                        "color": "#111111",
+                                        "weight": "bold",
+                                        "align": "end"
+                                    }
+                                ]
+
+                            },
+                            {
+                                "type": "separator",
+                                "color": "#000000"
+                            },
+                            {
+                                "type": "text",
+                                "text": str(MEMORY_name),
+                                "margin": "sm",
+                                "wrap": True
+                            },
+
+                        ],
+                        "margin": "sm",
+                        "backgroundColor": "#dcdcdc",
+
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "margin": "md",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "電源供應器",
+                                        "size": "xl",
+                                        "weight": "bold",
+                                        "flex": 0
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "$"+str(POWER_price),
+                                        "size": "lg",
+                                        "color": "#111111",
+                                        "weight": "bold",
+                                        "align": "end"
+                                    }
+                                ]
+
+                            },
+                            {
+                                "type": "separator",
+                                "color": "#000000"
+                            },
+                            {
+                                "type": "text",
+                                "text": str(POWER_name),
+                                "margin": "sm",
+                                "wrap": True
+                            },
+
+                        ],
+                        "margin": "sm",
+
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "horizontal",
+                                "margin": "md",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "機殼",
+                                        "size": "xl",
+                                        "weight": "bold",
+                                        "flex": 0
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "$"+str(CASE_price),
+                                        "size": "lg",
+                                        "color": "#111111",
+                                        "weight": "bold",
+                                        "align": "end"
+                                    }
+                                ]
+
+                            },
+                            {
+                                "type": "separator",
+                                "color": "#000000"
+                            },
+                            {
+                                "type": "text",
+                                "text": str(CASE_name),
+                                "margin": "sm",
+                                "wrap": True
+                            },
+
+                        ],
+                        "margin": "sm",
+                        "backgroundColor": "#dcdcdc",
+
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+
                             {
                                 "type": "text",
                                 "text": "總計$"+str(total_price),
@@ -639,7 +1183,7 @@ def manageForm(event, mtext ):
                         ]
                     }
 
-                ]
+                ],
             },
             "styles": {
                 "footer": {
@@ -652,15 +1196,7 @@ def manageForm(event, mtext ):
     line_bot_api.reply_message(  # 回覆訊息
         event.reply_token, flex_message
     )
-    
 
-    
-    
-    #line_bot_api.reply_message(
-    #    event.reply_token, TextSendMessage(text=CPU_name+'\n'+str(CPU_price)+'\n'+str(MB_price)+'\n'+ "總價為:"+str(total)))
-        
-
-   
 
 def sendPosition(event):  # 傳送位置
     try:
@@ -674,5 +1210,3 @@ def sendPosition(event):  # 傳送位置
     except:
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text='發生錯誤！'))
-
-

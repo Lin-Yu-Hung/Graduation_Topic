@@ -97,7 +97,7 @@ def web_crawler(keyword):
         print("商品資訊數量", len(Commodity_list))
         print("價錢數量", len(price_list))
         print("標題數量", len(pc_title_list))
-
+        print("儲存成功")
 
         
         try:
@@ -108,7 +108,7 @@ def web_crawler(keyword):
                     sql, (i+1, pc_title_list[i], price_list[i], Commodity_list[i], pc_url_list[i], pc_images[i],))
             
                 connection.commit()
-            print("儲存成功")
+            
 
         except:
                 connection.rollback()

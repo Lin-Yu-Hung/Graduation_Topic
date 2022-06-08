@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 {% csrf_token %}
+{% load static %}
 <html>
 
 <head>
+    <link rel="stylesheet" href="{% static 'cpu.css' %}">
+    <meta charset="utf-8">
     <title>Line Bot 表單配置</title>
 </head>
 
@@ -12,7 +15,7 @@
         <input type="submit" name="button" id="dataID" onclick="del()" value="清除清單內容" />
     </form>
     <table border="1" cellpadding="0" cellspzcing="0" width="100%">
-    
+        <th>刪除</th>
         <th>品牌</th>
         <th>商品圖片</th>
         <th>商品名稱</th>
@@ -20,6 +23,11 @@
         <th>購買連結</th>
     {% for aaa in test1 %}
     <tr align="center">
+        <form method="post" action="/test/"> {% csrf_token %}
+            <td><button value="{{ aaa.name }}" onclick="cart(this.value ,'{{ forloop.counter }}')" 
+                    id="{{ forloop.counter }}"
+                    name="cart_del">刪除</button></td>
+        </form>
         <td>{{aaa.vendor}}</td>
         <td><img src="{{aaa.pc_images}}" width="100" height="100"></td>
         <td>{{aaa.name}}</td>
@@ -28,9 +36,11 @@
     </tr>
     {% endfor %}
     </table>
-    <h1 style="color: red; align-items: flex-end; text-align: end;">
-        總計＄{{ total.price__sum }}
-    </h1>
+    {% if total.price__sum == None %}
+    <h1 style="color: red; align-items: flex-end; text-align: end;">總計＄0</h1>
+    {% else %}
+    <h1 style="color: red; align-items: flex-end; text-align: end;">總計＄{{ total.price__sum }}</h1>
+    {% endif %}
     
     
     {% csrf_token %}
@@ -43,6 +53,22 @@
                     document.getElementById('dataID').value = 'NO';
                 }
             } 
+    </script>
+
+    <script>
+        function cart(value1, id) {
+            var msg = "確定將 <span style='color :red;'>"+value1+"</span> 移出購物車?";
+            
+            if (confirm(msg) == true) {
+                alert("成功");
+                
+            }
+            else {
+                document.getElementById(id).value = 'NO'
+                alert("取消");
+                
+            }
+        } 
     </script>
     
 

@@ -4,11 +4,13 @@ from func3api.models import *
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
+
 class total_dbAdmin(admin.ModelAdmin):
     list_display = ('id','total')
 
 class dbAdmin(admin.ModelAdmin):
     list_display = ('id','vendor', 'name', 'price', 'url_list',)
+
 
 class displayAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'price', 'commodity',
